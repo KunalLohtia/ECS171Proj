@@ -16,8 +16,16 @@ def Home():
 
 # create route where predict method page is found
 #use post as a way to recieve the values from the model
-@app.route("/predict", method = ["POST"])
+@app.route("/predict", methods = ["POST"])
 def predict():
-    # when we recieve atttributes of tumor from user, convert values into float
-    #
-    float_features =
+    # when we receive attributes of tumor from user, convert values into float
+    # store user inputs that are converted from float in array
+    # then call model with predict method and put in array features
+    # user render template with index html and prediction text whether it is benign or malignant
+
+
+if __name__  == '__main__':
+    app.run(debug = True)
+
+
+# when run, will have it on local port, can access website from there
