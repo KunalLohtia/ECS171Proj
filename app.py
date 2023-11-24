@@ -1,6 +1,7 @@
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 import pickle
+from sklearn.preprocessing import MinMaxScaler
 
 # create flask app
 app = Flask(__name__)
@@ -19,9 +20,17 @@ def Home():
 @app.route("/predict", methods = ["POST"])
 def predict():
     # when we receive attributes of tumor from user, convert values into float
+    float_features = [float(x) for x in request.form.values()]
     # store user inputs that are converted from float in array
+    features = [np.array(float_features)]
+    # normalize each value in features
+    scaler = MinMaxScaler(feature_range=(0, 1))
+    rescaled_features = scaler.fit_transform(features)
     # then call model with predict method and put in array features
+    prediction = model.predict(rescaled_features)
     # user render template with index html and prediction text whether it is benign or malignant
+    return render_template("index.html", prediction_text = "The tumor diagnosis is {}".format(prediction))
+
 
 
 if __name__  == '__main__':
