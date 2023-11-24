@@ -20,7 +20,9 @@ def Home():
 @app.route("/predict", methods = ["POST"])
 def predict():
     # when we receive attributes of tumor from user, convert values into float
-    float_features = [float(x) for x in request.form.values()]
+    #print(request.form.get('CSV File Row'))
+    row = request.form.get('CSV File Row')
+    float_features = [float(x) for x in row.split(',')]
     # store user inputs that are converted from float in array
     features = [np.array(float_features)]
     # normalize each value in features
