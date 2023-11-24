@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            justify-content: space-between;
             background-color: #f0f0f0;
         }
 
@@ -21,16 +22,10 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            height: 400px;
-            overflow-y: scroll;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 600px;
-            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            overflow-y: auto;
+            margin: 20px;
         }
 
         #names {
@@ -39,14 +34,19 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 200px;
+            height: 300px;
+            margin: 20px;
         }
-
         .login {
             background: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 600px;
+            margin: 20px;
+        }
+
+        .login {
             text-align: center;
         }
 
@@ -122,26 +122,23 @@
             <li>Attribute 29: Concave Points Worst</li>
             <li>Attribute 30: Symmetry Worst</li>
             <li>Attribute 31: Fractal Dimension Worst</li>
-
         </ul>
     </div>
 
-    <div class="container">
-        <div class="login">
-            <h1>Breast Cancer Tumor Prediction</h1>
+    <div class="login">
+        <h1>Breast Cancer Tumor Prediction</h1>
 
-            <p>Upload a comma-separated list of 31 tumor attributes to receive an accurate prediction of whether the tumor is benign or malignant.</p>
+        <p>Upload a comma-separated list of 31 tumor attributes to receive an accurate prediction of whether the tumor is benign or malignant.</p>
 
-            <!-- Main Input For Receiving Query to our ML -->
-            <form action="{{ url_for('predict')}}" method="post">
-                <input type="text" name="List of Attributes" placeholder="List of Attributes" required="required" />
-                <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-            </form>
+        <!-- Main Input For Receiving Query to our ML -->
+        <form action="{{ url_for('predict')}}" method="post">
+            <input type="text" name="List of Attributes" placeholder="List of Attributes" required="required" />
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+        </form>
 
-            <br>
-            <br>
-            <strong>{{ prediction_text }}</strong>
-        </div>
+        <br>
+        <br>
+        <strong>{{ prediction_text }}</strong>
     </div>
 
     <div id="names">
