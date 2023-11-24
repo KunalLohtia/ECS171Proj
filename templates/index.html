@@ -1,32 +1,159 @@
 <!DOCTYPE html>
-<html >
-<!--From https://codepen.io/frytyler/pen/EGdtg-->
-<head>
-  <meta charset="UTF-8">
-  <title>ML API</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<html>
 
+<head>
+    <meta charset="UTF-8">
+    <title>ML API</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f0f0f0;
+        }
+
+        #attributes {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 600px;
+            margin: 0 auto;
+        }
+
+        #names {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+        }
+
+        .login {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Arimo', sans-serif;
+            font-size: 32px;
+        }
+
+        p {
+            font-family: 'Arimo', sans-serif;
+            font-size: 16px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #4CAF50;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
- <div class="login">
-	<h1>Breast Cancer Tumor Prediction</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-    	<input type="text" name="CSV File Row" placeholder="CSV File Row" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-    </form>
+    <div id="attributes">
+        <h2>List of Attributes</h2>
+        <p> Refer to this list for guidance on understanding the meaning of each value in your comma-separated list.</p>
+        <ul>
+            <li>Attribute 1: Radius Mean</li>
+            <li>Attribute 2: Texture Mean</li>
+            <li>Attribute 3: Perimeter Mean</li>
+            <li>Attribute 4: Area Mean</li>
+            <li>Attribute 5: Smoothness Mean</li>
+            <li>Attribute 6: Compactness Mean</li>
+            <li>Attribute 7: Concavity Mean</li>
+            <li>Attribute 8: Concave Points Mean</li>
+            <li>Attribute 9: Symmetry Mean</li>
+            <li>Attribute 10: Fractal Dimension Mean</li>
+            <li>Attribute 11: Radius SE</li>
+            <li>Attribute 12: Texture SE</li>
+            <li>Attribute 13: Perimeter SE</li>
+            <li>Attribute 14: Area SE</li>
+            <li>Attribute 15: Smoothness SE</li>
+            <li>Attribute 16: Compactness SE</li>
+            <li>Attribute 17: Concavity SE</li>
+            <li>Attribute 18: Concave Points SE</li>
+            <li>Attribute 19: Concave Points Mean</li>
+            <li>Attribute 20: Symmetry SE</li>
+            <li>Attribute 21: Fractal Dimension SE</li>
+            <li>Attribute 22: Radius Worst</li>
+            <li>Attribute 23: Texture Worst</li>
+            <li>Attribute 24: Perimeter Worst</li>
+            <li>Attribute 25: Area Worst</li>
+            <li>Attribute 26: Smoothness Worst</li>
+            <li>Attribute 27: Compactness Worst</li>
+            <li>Attribute 28: Concavity Worst</li>
+            <li>Attribute 29: Concave Points Worst</li>
+            <li>Attribute 30: Symmetry Worst</li>
+            <li>Attribute 31: Fractal Dimension Worst</li>
 
-   <br>
-   <br>
-   {{ prediction_text }}
+        </ul>
+    </div>
 
- </div>
+    <div class="container">
+        <div class="login">
+            <h1>Breast Cancer Tumor Prediction</h1>
 
+            <p>Upload a comma-separated list of 31 tumor attributes to receive an accurate prediction of whether the tumor is benign or malignant.</p>
 
+            <!-- Main Input For Receiving Query to our ML -->
+            <form action="{{ url_for('predict')}}" method="post">
+                <input type="text" name="List of Attributes" placeholder="List of Attributes" required="required" />
+                <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+            </form>
+
+            <br>
+            <br>
+            <strong>{{ prediction_text }}</strong>
+        </div>
+    </div>
+
+    <div id="names">
+        <h3>Created By</h3>
+        <ul>
+            <li>Eric</li>
+            <li>Athul</li>
+            <li>Kunal</li>
+            <li>Haosen</li>
+            <li>Vishal</li>
+        </ul>
+    </div>
 </body>
+
 </html>

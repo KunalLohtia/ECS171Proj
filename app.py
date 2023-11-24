@@ -21,7 +21,7 @@ def Home():
 def predict():
     # when we receive attributes of tumor from user, convert values into float
     #print(request.form.get('CSV File Row'))
-    row = request.form.get('CSV File Row')
+    row = request.form.get('List of Attributes')
     float_features = [float(x) for x in row.split(',')]
     # store user inputs that are converted from float in array
     features = [np.array(float_features)]
