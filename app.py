@@ -7,7 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 app = Flask(__name__)
 
 # load pickle model
-model = pickle.load(open("annsig.pkl", "rb"))
+model = pickle.load(open("relu.pkl", "rb"))
 
 # home page route
 @app.route("/")
