@@ -24,7 +24,7 @@ set_of_classes= pd.DataFrame({'diagnosis': set_of_classes})
 y = pd.get_dummies(y)
 
 mlp = MLPClassifier(solver = 'sgd', random_state = 0
-, activation = 'logistic', learning_rate_init = 0.2, batch_size = 225, hidden_layer_sizes = (30, 3), max_iter = 500)
+, activation = 'relu', learning_rate_init = 0.2, batch_size = 225, hidden_layer_sizes = (30, 3), max_iter = 500)
 
 CV = cross_validate(mlp, X, y, cv=10, scoring=['accuracy', 'neg_mean_squared_error'])
 
