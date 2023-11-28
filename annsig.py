@@ -25,6 +25,8 @@ y_updatedBC = updatedBC['diagnosis']
 scaler = MinMaxScaler(feature_range=(0, 1))
 X_rescaled = scaler.fit_transform(X_updatedBC)
 X_normalized = pd.DataFrame(data = X_rescaled, columns = X_updatedBC.columns)
+# Temp:
+# X_normalized = X_updatedBC
 
 # encoding y
 set_of_classes = y_updatedBC.value_counts().index.tolist()

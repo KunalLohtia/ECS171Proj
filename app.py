@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from flask import Flask, request, jsonify, render_template
 import pickle
 from sklearn.preprocessing import MinMaxScaler
@@ -8,6 +9,16 @@ app = Flask(__name__)
 
 # load pickle model
 model = pickle.load(open("relu.pkl", "rb"))
+
+# import and update dataset as done in training
+updatedBC = pd.read_csv('breast-cancer.csv')
+updatedBC = updatedBC.drop("id", axis = 1)
+updatedBC = updatedBC[(updatedBC['concavity_mean'] != 0)]
+X_updatedBC = updatedBC.drop('diagnosis', axis = 1)
+
+# initialize data scaler/normalizer for X
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaler.fit(X_updatedBC)
 
 # home page route
 @app.route("/")
@@ -20,17 +31,17 @@ def Home():
 @app.route("/predict", methods = ["POST"])
 def predict():
     # when we receive attributes of tumor from user, convert values into float
-    #print(request.form.get('CSV File Row'))
     row = request.form.get('List of Attributes')
-    float_features = np.array([float(x) for x in row.split(',')])
+    # print(row)
+    features = np.array([float(x) for x in row.split(',')])
     # store user inputs that are converted from float in array
-    features = [np.array(float_features)]
+    # print(features)
     # normalize each value in features
-    # scaler = MinMaxScaler(feature_range=(0, 1))
-    # rescaled_features = scaler.fit_transform(features)
+    rescaled_features = scaler.transform(features.reshape(1, -1))
+    # print(rescaled_features)
     # then call model with predict method and put in array features
-    features = float_features.reshape(1, -1)
-    prediction = model.predict(features)
+    prediction = model.predict(rescaled_features)
+    # print(prediction)
     # user render template with index html and prediction text whether it is benign or malignant
     return render_template("index.html", prediction_text = "The tumor diagnosis is {}".format(prediction))
 
