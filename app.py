@@ -7,8 +7,11 @@ from sklearn.preprocessing import MinMaxScaler
 # create flask app
 app = Flask(__name__)
 
-# load pickle model
-model = pickle.load(open("logistic.pkl", "rb"))
+# load pickle models
+relu = pickle.load(open("relu.pkl", "rb"))
+sigmoid = pickle.load(open("annsig.pkl", "rb"))
+logistic = pickle.load(open("logistic.pkl", "rb"))
+
 
 # import and update dataset as done in training
 updatedBC = pd.read_csv('breast-cancer.csv')
@@ -32,18 +35,22 @@ def Home():
 def predict():
     # when we receive attributes of tumor from user, convert values into float
     row = request.form.get('List of Attributes')
-    # print(row)
     features = np.array([float(x) for x in row.split(',')])
     # store user inputs that are converted from float in array
-    # print(features)
     # normalize each value in features
     rescaled_features = scaler.transform(features.reshape(1, -1))
-    # print(rescaled_features)
-    # then call model with predict method and put in array features
-    prediction = model.predict(rescaled_features)
-    # print(prediction)
+    # then call each model with predict method and put in rescaled features
+    prediction_relu = relu.predict(rescaled_features)
+    prediction_relu = "benign" if prediction_relu[0][0] == 1 else "malignant"
+    prediction_sigmoid = sigmoid.predict(rescaled_features)
+    prediction_sigmoid = "benign" if prediction_sigmoid[0][0] == 1 else "malignant"
+    prediction_logistic = logistic.predict(rescaled_features)
+    prediction_logistic = "benign" if prediction_logistic == "B" else "malignant"
     # user render template with index html and prediction text whether it is benign or malignant
-    return render_template("index.html", prediction_text = "The tumor diagnosis is {}".format(prediction))
+    return render_template("index.html",
+                prediction_text_relu = "The ReLU ANN's tumor diagnosis is {}".format(prediction_relu),
+                prediction_text_sigmoid = "The sigmoid ANN's tumor diagnosis is {}".format(prediction_sigmoid),
+                prediction_text_logistic = "The logistic regression model's tumor diagnosis is {}".format(prediction_logistic))
 
 
 
